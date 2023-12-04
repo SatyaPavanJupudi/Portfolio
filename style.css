@@ -419,7 +419,11 @@ article .icon {
   width: 90%;
   height: 90%;
 }
-
+.project-1img{
+  border-radius: 2rem;
+    width: 90%;
+    height: 370px;
+}
 .project-title {
   margin: 1rem;
   color: var(--secondary-color);
