@@ -51,3 +51,26 @@ function setLightMode() {
     icon.src = icon.getAttribute("src-light");
   });
 }
+
+  function  isDarkMode() {
+    return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  }
+
+  // Function to update the profile picture based on dark mode
+ function updateProfilePicture() {
+    var img = document.getElementById('profile-picture');
+    var isDark = isDarkMode();
+
+    if (isDark) {
+      img.src = img.getAttribute('src-dark');
+    } else {
+      img.src = img.getAttribute('src-light');
+    }
+  }
+
+  // Call the function on page load
+updateProfilePicture();
+
+  // Use MutationObserver to detect changes in color scheme
+  var observer = new MutationObserver(updateProfilePicture);
+  observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
