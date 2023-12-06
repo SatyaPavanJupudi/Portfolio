@@ -379,7 +379,13 @@ section {
   font-size: 1.75rem;
   margin-bottom: 2rem;
 }
-
+.experience-sub-title-1 {
+  color: var(--secondary-color);
+  font-weight: 400;
+  font-size: 1.5rem;
+  margin-left: 0;
+  margin-bottom: 2rem;
+}
 .experience-details-container {
   display: flex;
   justify-content: center;
