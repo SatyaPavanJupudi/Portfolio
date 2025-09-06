@@ -22,7 +22,7 @@ async function sendEmailGmail({ to, subject, html, replyTo }) {
       service: "gmail",
       auth: { user, pass },
     });
-    const fromName = process.env.GMAIL_FROM_NAME || "Portfolio";
+    const fromName = process.env.GMAIL_FROM_NAME || "Satya Pavan";
     const info = await transporter.sendMail({
       from: `${fromName} <${user}>`,
       to,
