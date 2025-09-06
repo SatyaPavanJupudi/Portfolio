@@ -1,11 +1,11 @@
-import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Card, CardContent } from "@/components/ui/card";
 import { motion } from "framer-motion";
-import { Briefcase, Calendar, MapPin } from "lucide-react";
+import { Briefcase } from "lucide-react";
 
 const experiences = [
 	{
-		title: "Software Developement Engineer - I",
+		title: "Software Development Engineer - I",
 		company: "M2P Solutions Private Limited",
 		location: "Hyderabad, India",
 		period: "2025 - Present",
@@ -18,10 +18,10 @@ const experiences = [
 			"Mentored 5+ junior developers and conducted technical interviews",
 			"Implemented CI/CD pipelines reducing deployment time by 60%",
 		],
-		technologies: [ "React","Node.js","Nest Js","TypeScript","Postgre SQL","Docker","Better Auth","Shadcn"],
+		technologies: ["React", "Node.js", "NestJS", "TypeScript", "PostgreSQL", "Docker", "Better Auth", "shadcn/ui"],
 	},
 	{
-		title: "Software Developement Engineer - I (Intern)",
+		title: "Software Development Engineer - I (Intern)",
 		company: "M2P Solutions Private Limited",
 		location: "Hyderabad, India",
 		period: "2025",
@@ -35,7 +35,7 @@ const experiences = [
 			"Introduced automated testing practices improving code quality",
 			"Collaborated with UX team to improve user engagement by 35%",
 		],
-		technologies: ["React", "Express.js", "PostgreSQL", "Node.js", "Github"],
+		technologies: ["React", "Express.js", "PostgreSQL", "Node.js", "GitHub"],
 	},
 	{
 		title: "Programming and Cloud Computing Associate",
@@ -59,6 +59,7 @@ export function Experience() {
 	return (
 		<section id="experience" className="py-20 scroll-mt-24 md:scroll-mt-28">
 			<div className="container mx-auto px-4 sm:px-6 lg:px-8">
+				{/* Header */}
 				<motion.div
 					initial={{ opacity: 0, y: 20 }}
 					whileInView={{ opacity: 1, y: 0 }}
@@ -70,102 +71,77 @@ export function Experience() {
 						<Briefcase className="w-3 h-3 mr-2" />
 						Professional Journey
 					</Badge>
-					<h2 className="text-3xl sm:text-4xl font-bold mb-6">
-						Work Experience
-					</h2>
+					<h2 className="text-3xl sm:text-4xl font-bold mb-6">Work Experience</h2>
 					<p className="text-lg text-muted-foreground max-w-3xl mx-auto">
 						My professional journey in software development, showcasing growth,
 						achievements, and the diverse range of projects I've worked on.
 					</p>
 				</motion.div>
 
-				<div className="relative">
-					{/* Timeline line */}
-					<div className="absolute left-6 sm:left-8 md:left-1/2 md:-ml-0.5 top-0 bottom-0 w-0.5 bg-border" />
+				{/* Stacked cards list */}
+				<div className="space-y-8">
+					{experiences.map((exp, index) => (
+						<motion.div
+							key={`${exp.company}-${exp.title}-${index}`}
+							initial={{ opacity: 0, y: 24 }}
+							whileInView={{ opacity: 1, y: 0 }}
+							viewport={{ once: true, amount: 0.2 }}
+							transition={{ duration: 0.5, delay: index * 0.05 }}
+						>
+							<Card className="relative overflow-hidden border border-border/50 shadow-lg hover:shadow-xl transition-all bg-white/70 dark:bg-slate-900/60 backdrop-blur supports-[backdrop-filter]:bg-white/60 hover:-translate-y-0.5">
+								{/* Accent strip */}
+								<div className="absolute inset-y-0 left-0 w-1 bg-gradient-to-b from-primary to-primary/60" />
+								<CardContent className="p-5 sm:p-6">
+									{/* Meta badges */}
+									<div className="flex flex-wrap items-center gap-2 mb-3 text-xs">
+										{exp.type && <Badge variant="secondary">{exp.type}</Badge>}
+										{(exp as any).duration && <Badge variant="outline">{(exp as any).duration}</Badge>}
+										{exp.period && <div className="text-muted-foreground">{exp.period}</div>}
+										{exp.location && <div className="text-muted-foreground">• {exp.location}</div>}
+									</div>
 
-					<div className="space-y-12">
-						{experiences.map((exp, index) => (
-							<motion.div
-								key={index}
-								initial={{ opacity: 0, y: 20 }}
-								whileInView={{ opacity: 1, y: 0 }}
-								transition={{ duration: 0.6, delay: index * 0.1 }}
-								viewport={{ once: true }}
-								className={`relative flex items-center ${
-									index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
-								}`}
-							>
-								{/* Timeline dot */}
-								<div className="absolute left-6 sm:left-8 md:left-1/2 md:-ml-3 w-6 h-6 bg-primary rounded-full border-4 border-background shadow-lg z-10" />
+									{/* Heading */}
+									<div className="flex items-start gap-3 mb-2">
+										<div className="mt-1 p-2 rounded-lg bg-gradient-to-br from-primary to-primary/70 text-white shadow">
+											<Briefcase className="w-4 h-4" />
+										</div>
+										<div>
+											<h3 className="text-lg sm:text-xl font-bold leading-tight">{exp.title}</h3>
+											<h4 className="text-base sm:text-lg text-primary font-semibold mt-0.5">{exp.company}</h4>
+										</div>
+									</div>
 
-								{/* Content */}
-								<div
-									className={`flex-1 ml-16 sm:ml-20 md:ml-0 ${
-										index % 2 === 0 ? "md:pr-8" : "md:pl-8"
-									}`}
-								>
-									<Card className="border-0 shadow-lg bg-gradient-to-br from-white to-blue-50 dark:from-slate-800 dark:to-slate-900">
-										<CardContent className="p-6">
-											<div className="flex flex-wrap items-center gap-2 mb-3">
-												<Badge variant="secondary" className="text-xs">
-													{exp.type}
-												</Badge>
-												{exp.duration && (
-													<Badge variant="outline" className="text-xs">
-														{exp.duration}
-													</Badge>
-												)}
-												<div className="flex items-center text-xs text-muted-foreground">
-													<Calendar className="w-3 h-3 mr-1" />
-													{exp.period}
-												</div>
-												<div className="flex items-center text-xs text-muted-foreground">
-													<MapPin className="w-3 h-3 mr-1" />
-													{exp.location}
-												</div>
-											</div>
+									{exp.description && (
+										<p className="text-muted-foreground mb-4 leading-relaxed">{exp.description}</p>
+									)}
 
-											<h3 className="text-xl font-bold mb-1">
-												{exp.title}
-											</h3>
-											<h4 className="text-lg text-primary font-semibold mb-3">
-												{exp.company}
-											</h4>
-
-											<p className="text-muted-foreground mb-4 leading-relaxed">
-												{exp.description}
-											</p>
-
-											<div className="mb-4">
-												<h5 className="font-semibold mb-2 text-sm">
-													Key Achievements:
-												</h5>
-												<ul className="space-y-1">
-													{exp.achievements.map((achievement, i) => (
-														<li
-															key={i}
-															className="text-sm text-muted-foreground flex items-start"
-														>
-															<span className="w-1.5 h-1.5 bg-primary rounded-full mt-2 mr-2 flex-shrink-0" />
-															{achievement}
-														</li>
-													))}
-												</ul>
-											</div>
-
-											<div className="flex flex-wrap gap-1">
-												{exp.technologies.map((tech) => (
-													<Badge key={tech} variant="outline" className="text-xs">
-														{tech}
-													</Badge>
+									{exp.achievements && exp.achievements.length > 0 && (
+										<div className="mb-4">
+											<h5 className="font-semibold mb-2 text-sm">Highlights</h5>
+											<ul className="space-y-1">
+												{exp.achievements.map((b, i) => (
+													<li key={i} className="text-sm text-muted-foreground flex items-start">
+														<span className="w-1.5 h-1.5 rounded-full mt-2 mr-2 flex-shrink-0 bg-gradient-to-r from-primary to-primary/60" />
+														{b}
+													</li>
 												))}
-											</div>
-										</CardContent>
-									</Card>
-								</div>
-							</motion.div>
-						))}
-					</div>
+											</ul>
+										</div>
+									)}
+
+									{exp.technologies && exp.technologies.length > 0 && (
+										<div className="flex flex-wrap gap-1">
+											{exp.technologies.map((t) => (
+												<Badge key={t} variant="outline" className="text-xs">
+													{t}
+												</Badge>
+											))}
+										</div>
+									)}
+								</CardContent>
+							</Card>
+						</motion.div>
+					))}
 				</div>
 			</div>
 		</section>

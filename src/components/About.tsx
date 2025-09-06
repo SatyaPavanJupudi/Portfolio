@@ -28,15 +28,15 @@ const skills = [
 	"JavaScript",
 	"TypeScript",
 	"React",
+	"Shadcn/ui",
+	"Better Auth",
+	"Express.js",
 	"Node.js",
-	"Next.js",
-	"Python",
+	"Nest.js",
 	"PostgreSQL",
-	"MongoDB",
-	"AWS",
 	"Docker",
-	"Git",
-	"Figma",
+	"Github",
+	"Argo CD",
 ];
 
 export function About() {

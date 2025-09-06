@@ -19,19 +19,25 @@ const contactInfo = [
     icon: Mail,
     label: "Email",
     value: "jupudisatyapavan@gmail.com",
-    href: "mailto:jupudisatyapavan@gmail.com"
+  href: "mailto:jupudisatyapavan@gmail.com",
+  iconColor: "text-rose-600 dark:text-rose-400",
+  bgColor: "bg-rose-600/10 dark:bg-rose-400/10",
   },
   {
     icon: Phone,
     label: "Phone",
     value: "+91 7981371244",
-    href: "tel:+917981371244"
+  href: "tel:+917981371244",
+  iconColor: "text-emerald-600 dark:text-emerald-400",
+  bgColor: "bg-emerald-600/10 dark:bg-emerald-400/10",
   },
   {
     icon: MapPin,
     label: "Location",
     value: "Machilipatnam, India",
-    href: "https://www.google.com/maps/place/Machilipatnam,+India"
+  href: "https://www.google.com/maps/place/Machilipatnam,+India",
+  iconColor: "text-amber-600 dark:text-amber-400",
+  bgColor: "bg-amber-600/10 dark:bg-amber-400/10",
   }
 ];
 
@@ -40,19 +46,23 @@ const socialLinks = [
     icon: Github,
     label: "GitHub",
     href: "https://github.com/SatyaPavanJupudi",
-    username: "@SatyaPavanJupudi"
+  username: "@SatyaPavanJupudi",
+  iconColor: "text-[#181717] dark:text-white",
+  bgColor: "bg-[#181717]/10 dark:bg-white/10",
   },
   {
     icon: Linkedin,
     label: "LinkedIn",
     href: "https://www.linkedin.com/in/satya-pavan-jupudi-8b63a4235/",
-    username: "Satya Pavan Jupudi"
+  username: "Satya Pavan Jupudi",
+  iconColor: "text-[#0A66C2] dark:text-[#70B5F9]",
+  bgColor: "bg-[#0A66C2]/10 dark:bg-[#70B5F9]/10",
   },
 //   {
 //     icon: Twitter,
 //     label: "Twitter",
 //     href: "https://twitter.com",
-//     username: "@johndev"
+//     username: "@johndev",
 //   }
 ];
 
@@ -63,6 +73,7 @@ export function Contact() {
     subject: "",
     message: ""
   });
+  const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({
@@ -70,11 +81,31 @@ export function Contact() {
       [e.target.name]: e.target.value
     });
   };
+  const encode = (data: Record<string, string>) =>
+    Object.keys(data)
+      .map((key) => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]))
+      .join("&");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Handle form submission here
-    console.log("Form submitted:", formData);
+    try {
+      setStatus("submitting");
+      const body = encode({ "form-name": "contact", ...formData });
+      const res = await fetch("/", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body,
+      });
+      if (res.ok) {
+        setStatus("success");
+        setFormData({ name: "", email: "", subject: "", message: "" });
+      } else {
+        throw new Error("Network response was not ok");
+      }
+    } catch (err) {
+      setStatus("error");
+      console.error("Form submission failed", err);
+    }
   };
 
   return (
@@ -100,7 +131,7 @@ export function Contact() {
           </p>
         </motion.div>
 
-        <div className="grid lg:grid-cols-2 gap-12">
+  <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12">
           {/* Contact Information */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
@@ -115,15 +146,15 @@ export function Contact() {
               </CardHeader>
               <CardContent className="space-y-4">
                 {contactInfo.map((info) => (
-                  <div key={info.label} className="flex items-center space-x-4">
-                    <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
-                      <info.icon className="w-5 h-5 text-primary" />
+                  <div key={info.label} className="flex items-start gap-4 flex-wrap">
+                    <div className={`w-12 h-12 ${info.bgColor} rounded-lg flex items-center justify-center transition-transform hover:scale-105`}>
+                      <info.icon className={`w-5 h-5 ${info.iconColor}`} />
                     </div>
-                    <div>
+                    <div className="min-w-0">
                       <p className="font-medium">{info.label}</p>
                       <a 
                         href={info.href}
-                        className="text-muted-foreground hover:text-primary transition-colors"
+                        className="text-muted-foreground hover:text-primary transition-colors break-all"
                       >
                         {info.value}
                       </a>
@@ -139,19 +170,21 @@ export function Contact() {
               </CardHeader>
               <CardContent className="space-y-4">
                 {socialLinks.map((social) => (
-                  <div key={social.label} className="flex items-center justify-between">
-                    <div className="flex items-center space-x-4">
-                      <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
-                        <social.icon className="w-5 h-5 text-primary" />
+                  <div key={social.label} className="flex w-full flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
+                    <div className="flex items-start sm:items-center gap-4 min-w-0">
+                      <div className={`w-12 h-12 ${social.bgColor} rounded-lg flex items-center justify-center transition-transform hover:scale-105`}>
+                        <social.icon className={`w-5 h-5 ${social.iconColor}`} />
                       </div>
-                      <div>
+                      <div className="min-w-0">
                         <p className="font-medium">{social.label}</p>
-                        <p className="text-sm text-muted-foreground">{social.username}</p>
+                        <p className="text-sm text-muted-foreground break-words">{social.username}</p>
                       </div>
                     </div>
                     <Button
                       variant="outline"
                       size="sm"
+                      className="w-full sm:w-auto"
+                      aria-label={`Follow on ${social.label}`}
                       onClick={() => window.open(social.href, "_blank")}
                     >
                       Follow
@@ -174,7 +207,22 @@ export function Contact() {
                 <CardTitle className="text-xl">Send Me a Message</CardTitle>
               </CardHeader>
               <CardContent>
-                <form onSubmit={handleSubmit} className="space-y-6">
+                <form
+                  name="contact"
+                  method="POST"
+                  data-netlify="true"
+                  netlify-honeypot="bot-field"
+                  onSubmit={handleSubmit}
+                  className="space-y-6"
+                >
+                  {/* Netlify required hidden input */}
+                  <input type="hidden" name="form-name" value="contact" />
+                  {/* Honeypot field */}
+                  <p className="hidden">
+                    <label>
+                      Don’t fill this out if you’re human: <input name="bot-field" onChange={() => {}} />
+                    </label>
+                  </p>
                   <div className="grid md:grid-cols-2 gap-4">
                     <div>
                       <label htmlFor="name" className="block text-sm font-medium mb-2">
@@ -240,10 +288,18 @@ export function Contact() {
                     />
                   </div>
                   
-                  <Button type="submit" className="w-full" size="lg">
-                    <Send className="w-4 h-4 mr-2" />
-                    Send Message
-                  </Button>
+                  <div className="space-y-3">
+                    <Button type="submit" className="w-full" size="lg" disabled={status === "submitting"}>
+                      <Send className="w-4 h-4 mr-2" />
+                      {status === "submitting" ? "Sending..." : "Send Message"}
+                    </Button>
+                    {status === "success" && (
+                      <p className="text-sm text-emerald-600">Thanks! Your message was sent.</p>
+                    )}
+                    {status === "error" && (
+                      <p className="text-sm text-rose-600">Something went wrong. Please try again.</p>
+                    )}
+                  </div>
                 </form>
               </CardContent>
             </Card>

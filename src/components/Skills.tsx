@@ -5,27 +5,22 @@ import { motion } from "framer-motion";
 import { 
   Code2, 
   Wrench, 
-//   Smartphone,
   Globe,
-  Server
+  Server,
+  ShieldCheck,
+  SquareStack
 } from "lucide-react";
 import { 
   SiReact,
   SiTypescript,
-  SiNextdotjs,
   SiTailwindcss,
   SiJavascript,
   SiNodedotjs,
-  SiPython,
   SiPostgresql,
-  SiMongodb,
-  SiGraphql,
-  SiGit,
+  SiNestjs,
+  SiGithub,
   SiDocker,
-  SiAmazon,
-  SiVercel,
-  SiFigma,
-  SiJest
+  SiArgo
 } from "react-icons/si";
 import {
   Chart as ChartJS,
@@ -93,23 +88,20 @@ const skillCategories = {
 //   }
 };
 
-const skillIconGrid: Array<{ name: string; Icon: React.ComponentType<{ className?: string }>; colorClass?: string; title?: string; }>= [
+// Show exactly the requested set with branded colors; use lucide fallbacks for brands without simple-icons
+const skillIconGrid: Array<{ name: string; Icon: React.ComponentType<{ className?: string }>; colorClass?: string }>= [
   { name: "React", Icon: SiReact, colorClass: "text-[#61DAFB]" },
-  { name: "TypeScript", Icon: SiTypescript, colorClass: "text-[#3178C6]" },
-  { name: "Next.js", Icon: SiNextdotjs, colorClass: "text-black dark:text-white" },
   { name: "Tailwind", Icon: SiTailwindcss, colorClass: "text-[#38BDF8]" },
-  { name: "JavaScript", Icon: SiJavascript, colorClass: "text-[#F7DF1E]" },
-  { name: "Node.js", Icon: SiNodedotjs, colorClass: "text-[#5FA04E]" },
-  { name: "Python", Icon: SiPython, colorClass: "text-[#3776AB]" },
+  { name: "NestJS", Icon: SiNestjs, colorClass: "text-[#E0234E]" },
   { name: "PostgreSQL", Icon: SiPostgresql, colorClass: "text-[#4169E1]" },
-  { name: "MongoDB", Icon: SiMongodb, colorClass: "text-[#47A248]" },
-  { name: "GraphQL", Icon: SiGraphql, colorClass: "text-[#E10098]" },
-  { name: "Git", Icon: SiGit, colorClass: "text-[#F05032]" },
+  { name: "BetterAuth", Icon: ShieldCheck, colorClass: "text-[#0EA5E9]" },
+  { name: "TypeScript", Icon: SiTypescript, colorClass: "text-[#3178C6]" },
+  { name: "Node.js", Icon: SiNodedotjs, colorClass: "text-[#5FA04E]" },
+  { name: "JavaScript", Icon: SiJavascript, colorClass: "text-[#F7DF1E]" },
+  { name: "shadcn", Icon: SquareStack, colorClass: "text-foreground" },
+  { name: "GitHub", Icon: SiGithub, colorClass: "text-black dark:text-white" },
   { name: "Docker", Icon: SiDocker, colorClass: "text-[#2496ED]" },
-  { name: "AWS", Icon: SiAmazon, colorClass: "text-[#FF9900]" },
-  { name: "Vercel", Icon: SiVercel, colorClass: "text-black dark:text-white" },
-  { name: "Figma", Icon: SiFigma, colorClass: "text-[#F24E1E]" },
-  { name: "Jest", Icon: SiJest, colorClass: "text-[#C21325]" },
+  { name: "ArgoCD", Icon: SiArgo, colorClass: "text-[#EF7B4D]" },
 ];
 
 function levelToLabel(level: number) {
@@ -235,7 +227,7 @@ export function Skills() {
           viewport={{ once: true }}
           className="mb-12"
         >
-          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 gap-3 sm:gap-4">
             {skillIconGrid.map(({ name, Icon, colorClass }) => (
               <div
                 key={name}
@@ -243,8 +235,8 @@ export function Skills() {
                 title={name}
                 aria-label={name}
               >
-                <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-xl bg-white/80 dark:bg-slate-800/80 ring-1 ring-slate-200/60 dark:ring-slate-700/60 flex items-center justify-center shadow-sm transition-all duration-300 group-hover:-translate-y-0.5 group-hover:shadow-md">
-                  <Icon className={`w-7 h-7 sm:w-8 sm:h-8 ${colorClass ?? "text-foreground"}`} />
+                <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-xl bg-white/80 dark:bg-slate-800/80 ring-1 ring-slate-200/60 dark:ring-slate-700/60 flex items-center justify-center shadow-sm transition-all duration-300 group-hover:-translate-y-0.5 group-hover:shadow-lg group-hover:bg-gradient-to-br group-hover:from-primary/10 group-hover:to-transparent group-hover:ring-2 group-hover:ring-primary/40">
+                  <Icon className={`w-6 h-6 sm:w-8 sm:h-8 transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-3 ${colorClass ?? "text-foreground"}`} />
                 </div>
                 <span className="text-[10px] sm:text-xs text-muted-foreground">{name}</span>
               </div>
@@ -259,11 +251,15 @@ export function Skills() {
           viewport={{ once: true }}
         >
           <Tabs defaultValue="frontend" className="w-full">
-            <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 mb-8">
+            <TabsList className="grid w-full grid-cols-3 gap-2 lg:gap-3 mb-8">
               {Object.entries(skillCategories).map(([key, category]) => (
-                <TabsTrigger key={key} value={key} className="flex items-center gap-2">
+                <TabsTrigger
+                  key={key}
+                  value={key}
+                  className="w-full justify-center flex items-center gap-2 text-xs sm:text-sm lg:text-[0.95rem] px-2 py-1 sm:px-3 sm:py-1.5 lg:px-4 lg:py-2 h-10 lg:h-11 hover:bg-background/60"
+                >
                   <category.icon className="w-4 h-4" />
-                  <span className="hidden sm:inline">{category.title.split(' ')[0]}</span>
+                  <span className="hidden sm:inline">{category.title}</span>
                   <span className="sm:hidden">{category.title.split(' ')[0]}</span>
                 </TabsTrigger>
               ))}
@@ -279,13 +275,13 @@ export function Skills() {
                     <CardTitle className="text-xl sm:text-2xl">{category.title}</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <div className="grid gap-8 lg:grid-cols-5">
-                      <div className="lg:col-span-2">
-                        <div className="h-56 sm:h-64">
+                    <div className="grid gap-6 md:gap-8 md:grid-cols-5">
+                      <div className="md:col-span-2 min-w-0">
+                        <div className="w-full max-w-sm mx-auto aspect-square sm:max-w-md sm:aspect-[4/3] md:max-w-none md:h-72 md:aspect-auto">
                           <RadarChart title={category.title} data={category.skills} />
                         </div>
                       </div>
-                      <div className="lg:col-span-3 grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="md:col-span-3 grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                         {category.skills.map((skill, index) => (
                           <SkillTile key={skill.name} skill={skill} index={index} />
                         ))}

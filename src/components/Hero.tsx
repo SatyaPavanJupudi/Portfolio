@@ -35,7 +35,7 @@ export function Hero() {
   }, []);
 
   return (
-    <section className="min-h-screen flex items-center justify-center relative overflow-hidden bg-white dark:bg-slate-900">
+    <section className="min-h-screen flex items-center justify-center relative overflow-hidden bg-white dark:bg-slate-900 pt-20 sm:pt-24">
       {/* Enhanced Background Elements */}
       <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-blue-100 to-blue-200 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900" />
       <div className="absolute top-10 left-4 w-40 h-40 sm:top-20 sm:left-12 sm:w-72 sm:h-72 bg-gradient-to-r from-blue-400/20 to-blue-500/20 rounded-full blur-3xl animate-pulse" />
@@ -94,7 +94,8 @@ export function Hero() {
             <Button
               size="lg"
               onClick={() => scrollToSection("projects")}
-              className="px-8 py-6 text-lg font-medium group bg-blue-600 hover:bg-blue-700 transition-all duration-300 transform hover:scale-105 rounded-xl shadow-lg hover:shadow-xl text-white"
+              className="px-8 py-6 text-lg font-medium group bg-blue-600 hover:bg-blue-700 transition-all duration-300 transform hover:scale-105 hover:-translate-y-0.5 rounded-xl shadow-lg hover:shadow-blue-500/25 focus-visible:ring-2 focus-visible:ring-blue-400/60 text-white"
+              aria-label="View my projects"
             >
               <Code className="w-5 h-5 mr-2 group-hover:animate-pulse" />
               View My Work
@@ -103,9 +104,10 @@ export function Hero() {
               size="lg"
               variant="outline"
               onClick={() => scrollToSection("contact")}
-              className="px-8 py-6 text-lg font-medium border-2 border-blue-300 hover:border-blue-500 hover:bg-blue-50 dark:hover:bg-slate-800 transition-all duration-300 rounded-xl backdrop-blur-sm"
+              className="px-8 py-6 text-lg font-medium group border-2 border-blue-300 hover:border-blue-500 hover:bg-blue-50 dark:hover:bg-slate-800 transition-all duration-300 rounded-xl backdrop-blur-sm hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-blue-400/60"
+              aria-label="Contact me"
             >
-              <Mail className="w-5 h-5 mr-2" />
+              <Mail className="w-5 h-5 mr-2 group-hover:animate-pulse" />
               Get In Touch
             </Button>
           </motion.div>
@@ -114,31 +116,34 @@ export function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="flex justify-center space-x-6 mb-16"
+            className="flex flex-wrap justify-center gap-4 sm:gap-6 mb-16"
           >
             <Button
               variant="ghost"
               size="icon"
-              className="w-12 h-12 hover:scale-110 transition-all duration-300 rounded-full bg-white/30 dark:bg-slate-800/30 backdrop-blur-sm hover:bg-blue-100 dark:hover:bg-slate-700 hover:shadow-lg"
+              className="group w-12 h-12 hover:scale-110 transition-all duration-300 rounded-full bg-white/30 dark:bg-slate-800/30 backdrop-blur-sm hover:bg-black/10 dark:hover:bg-white/10 hover:ring-2 hover:ring-[#181717]/30 focus-visible:ring-2 focus-visible:ring-[#181717]/50"
               onClick={() => window.open("https://github.com/SatyaPavanJupudi", "_blank")}
+              aria-label="GitHub profile"
             >
-              <Github className="w-6 h-6 hover:text-blue-600 transition-colors" />
+              <Github className="w-6 h-6 text-[#181717] dark:text-white transition-transform duration-300 group-hover:scale-110" />
             </Button>
             <Button
               variant="ghost"
               size="icon"
-              className="w-12 h-12 hover:scale-110 transition-all duration-300 rounded-full bg-white/30 dark:bg-slate-800/30 backdrop-blur-sm hover:bg-blue-100 dark:hover:bg-slate-700 hover:shadow-lg"
+              className="group w-12 h-12 hover:scale-110 transition-all duration-300 rounded-full bg-white/30 dark:bg-slate-800/30 backdrop-blur-sm hover:bg-[#0A66C2]/10 hover:ring-2 hover:ring-[#0A66C2]/30 focus-visible:ring-2 focus-visible:ring-[#0A66C2]/50"
               onClick={() => window.open("https://linkedin.com/in/satya-pavan-jupudi-8b63a4235/", "_blank")}
+              aria-label="LinkedIn profile"
             >
-              <Linkedin className="w-6 h-6 hover:text-blue-600 transition-colors" />
+              <Linkedin className="w-6 h-6 text-[#0A66C2] transition-transform duration-300 group-hover:scale-110" />
             </Button>
             <Button
               variant="ghost"
               size="icon"
-              className="w-12 h-12 hover:scale-110 transition-all duration-300 rounded-full bg-white/30 dark:bg-slate-800/30 backdrop-blur-sm hover:bg-blue-100 dark:hover:bg-slate-700 hover:shadow-lg"
+              className="group w-12 h-12 hover:scale-110 transition-all duration-300 rounded-full bg-white/30 dark:bg-slate-800/30 backdrop-blur-sm hover:bg-[#EA4335]/10 hover:ring-2 hover:ring-[#EA4335]/30 focus-visible:ring-2 focus-visible:ring-[#EA4335]/50"
               onClick={() => window.open("mailto:jupudisatyapavan@gmail.com")}
+              aria-label="Email me"
             >
-              <Mail className="w-6 h-6 hover:text-blue-600 transition-colors" />
+              <Mail className="w-6 h-6 text-[#EA4335] transition-transform duration-300 group-hover:scale-110" />
             </Button>
           </motion.div>
 
@@ -152,7 +157,8 @@ export function Hero() {
               variant="ghost"
               size="icon"
               onClick={() => scrollToSection("about")}
-              className="w-12 h-12 rounded-full hover:bg-blue-100 dark:hover:bg-slate-800 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-300"
+              className="w-12 h-12 rounded-full hover:bg-blue-100 dark:hover:bg-slate-800 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-300 hover:scale-105 focus-visible:ring-2 focus-visible:ring-blue-400/60"
+              aria-label="Scroll to About section"
             >
               <ArrowDown className="w-6 h-6" />
             </Button>
