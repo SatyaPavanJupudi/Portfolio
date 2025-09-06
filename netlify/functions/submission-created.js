@@ -7,7 +7,37 @@
 
 const RESEND_API = "https://api.resend.com/emails";
 
-async function sendEmail({ to, from, subject, html }) {
+// Gmail sender via nodemailer (uses env: GMAIL_USER, GMAIL_APP_PASSWORD, optional GMAIL_FROM_NAME)
+async function sendEmailGmail({ to, subject, html, replyTo }) {
+  try {
+    const mod = await import("nodemailer");
+    const nodemailer = mod.default || mod;
+    const user = process.env.GMAIL_USER;
+    const pass = process.env.GMAIL_APP_PASSWORD;
+    if (!user || !pass) {
+      console.warn("GMAIL_USER or GMAIL_APP_PASSWORD not configured; skipping Gmail send.");
+      return { skipped: true };
+    }
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: { user, pass },
+    });
+    const fromName = process.env.GMAIL_FROM_NAME || "Portfolio";
+    const info = await transporter.sendMail({
+      from: `${fromName} <${user}>`,
+      to,
+      subject,
+      html,
+      replyTo,
+    });
+    return { ok: true, id: info.messageId };
+  } catch (e) {
+    console.error("Gmail send failed:", e);
+    throw e;
+  }
+}
+
+async function sendEmail({ to, from, subject, html, replyTo }) {
   const apiKey = process.env.RESEND_API_KEY;
   if (!apiKey) {
     console.warn("RESEND_API_KEY not configured; skipping email send.");
@@ -19,7 +49,7 @@ async function sendEmail({ to, from, subject, html }) {
       Authorization: `Bearer ${apiKey}`,
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ to, from, subject, html }),
+  body: JSON.stringify({ to, from, subject, html, reply_to: replyTo }),
   });
   if (!res.ok) {
     const text = await res.text();
@@ -39,8 +69,10 @@ exports.handler = async (event) => {
     const subject = String(submission.subject || "").trim() || "Thanks for contacting us";
     const message = String(submission.message || "").trim();
 
-    const fromEmail = process.env.SITE_FROM_EMAIL || "no-reply@example.com";
+  const fromEmail = (process.env.SITE_FROM_EMAIL || "onboarding@resend.dev").trim();
     const ownerEmail = process.env.SITE_OWNER_EMAIL;
+  const isOnboarding = fromEmail.toLowerCase().endsWith("@resend.dev");
+  const useGmail = Boolean(process.env.GMAIL_USER && process.env.GMAIL_APP_PASSWORD);
 
     if (email) {
       const html = `
@@ -53,7 +85,13 @@ exports.handler = async (event) => {
           <p style="margin-top:24px;color:#64748b;font-size:12px;">This is an automated confirmation.</p>
         </div>
       `;
-      await sendEmail({ to: email, from: fromEmail, subject, html });
+      if (useGmail) {
+        await sendEmailGmail({ to: email, subject, html, replyTo: ownerEmail || process.env.GMAIL_USER });
+      } else if (!isOnboarding) {
+        await sendEmail({ to: email, from: fromEmail, subject, html, replyTo: ownerEmail || fromEmail });
+      } else {
+        console.info("Resend onboarding sender in use; skipping user confirmation email. Verify a domain in Resend and set SITE_FROM_EMAIL to that domain to enable.");
+      }
     }
 
     if (ownerEmail) {
@@ -67,7 +105,13 @@ exports.handler = async (event) => {
           <p style="white-space:pre-wrap;">${message}</p>
         </div>
       `;
-      await sendEmail({ to: ownerEmail, from: fromEmail, subject: `Contact: ${subject}`, html });
+  if (ownerEmail) {
+    if (useGmail) {
+      await sendEmailGmail({ to: ownerEmail, subject: `Contact: ${subject}`, html, replyTo: email || process.env.GMAIL_USER });
+    } else {
+      await sendEmail({ to: ownerEmail, from: fromEmail, subject: `Contact: ${subject}`, html, replyTo: email || undefined });
+    }
+  }
     }
 
     return { statusCode: 200, body: JSON.stringify({ ok: true }) };
