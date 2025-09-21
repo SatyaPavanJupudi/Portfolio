@@ -57,7 +57,7 @@ const experiences = [
 
 export function Experience() {
 	return (
-		<section id="experience" className="py-20 scroll-mt-24 md:scroll-mt-28">
+		<section id="experience" className="py-20 bg-gradient-light dark:bg-background scroll-mt-24 md:scroll-mt-28">
 			<div className="container mx-auto px-4 sm:px-6 lg:px-8">
 				{/* Header */}
 				<motion.div
@@ -88,7 +88,7 @@ export function Experience() {
 							viewport={{ once: true, amount: 0.2 }}
 							transition={{ duration: 0.5, delay: index * 0.05 }}
 						>
-							<Card className="relative overflow-hidden border border-border/50 shadow-lg hover:shadow-xl transition-all bg-white/70 dark:bg-slate-900/60 backdrop-blur supports-[backdrop-filter]:bg-white/60 hover:-translate-y-0.5">
+							<Card className="relative overflow-hidden border border-border/60 shadow-medium dark:shadow-lg hover:shadow-glow dark:hover:shadow-xl transition-all bg-card/95 dark:bg-slate-900/60 backdrop-blur supports-[backdrop-filter]:bg-card/90 hover:-translate-y-0.5">
 								{/* Accent strip */}
 								<div className="absolute inset-y-0 left-0 w-1 bg-gradient-to-b from-primary to-primary/60" />
 								<CardContent className="p-5 sm:p-6">

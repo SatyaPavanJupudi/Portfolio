@@ -28,8 +28,12 @@ const skills = [
 	"JavaScript",
 	"TypeScript",
 	"React",
+	"Tailwind CSS",
 	"Shadcn/ui",
+	"Better Auth UI",
+	"Key Cloak",
 	"Better Auth",
+	"Electric SQL",
 	"Express.js",
 	"Node.js",
 	"Nest.js",
@@ -41,7 +45,7 @@ const skills = [
 
 export function About() {
 	return (
-		<section id="about" className="py-20 bg-muted/30">
+		<section id="about" className="py-20 bg-gradient-light dark:bg-muted/30">
 			<div className="container mx-auto px-4 sm:px-6 lg:px-8">
 				<motion.div
 					initial={{ opacity: 0, y: 20 }}
@@ -73,10 +77,10 @@ export function About() {
 						viewport={{ once: true }}
 					>
 						<div className="relative">
-							<div className="aspect-square bg-gradient-to-br from-blue-100/50 to-blue-200/50 dark:from-blue-900/20 dark:to-blue-800/20 rounded-2xl p-8 flex items-center justify-center">
-								<div className="w-full h-full bg-background/50 backdrop-blur-sm rounded-xl border border-border flex items-center justify-center">
+							<div className="aspect-square bg-gradient-to-br from-blue-50/80 to-blue-100/60 dark:from-blue-900/20 dark:to-blue-800/20 rounded-2xl p-8 flex items-center justify-center shadow-medium dark:shadow-none">
+								<div className="w-full h-full bg-card/80 backdrop-blur-sm rounded-xl border border-border/60 flex items-center justify-center shadow-soft dark:shadow-none">
 									<div className="text-center">
-										<div className="w-24 h-24 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+										<div className="w-24 h-24 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4 shadow-soft dark:shadow-none">
 											<User className="w-12 h-12 text-primary" />
 										</div>
 										<h3 className="text-2xl font-bold mb-2">
@@ -101,11 +105,11 @@ export function About() {
 						{features.map((feature, index) => (
 							<Card
 								key={index}
-								className="border-none shadow-none bg-background/50"
+								className="border border-border/40 shadow-soft dark:shadow-none bg-card/90 dark:bg-background/50 hover:shadow-medium dark:hover:shadow-none transition-all duration-300"
 							>
 								<CardContent className="p-6">
 									<div className="flex items-start space-x-4">
-										<div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
+										<div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0 shadow-soft dark:shadow-none">
 											<feature.icon className="w-6 h-6 text-primary" />
 										</div>
 										<div>

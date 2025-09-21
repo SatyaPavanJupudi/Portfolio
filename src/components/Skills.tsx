@@ -7,8 +7,9 @@ import {
   Wrench, 
   Globe,
   Server,
-  ShieldCheck,
-  SquareStack
+  SquareStack,
+  Database,
+  Shield
 } from "lucide-react";
 import { 
   SiReact,
@@ -20,7 +21,8 @@ import {
   SiNestjs,
   SiGithub,
   SiDocker,
-  SiArgo
+  SiArgo,
+  SiKeycloak
 } from "react-icons/si";
 import {
   Chart as ChartJS,
@@ -42,12 +44,12 @@ const skillCategories = {
     title: "Frontend Development",
     icon: Globe,
     skills: [
-      { name: "React", level: 95, description: "Advanced component architecture, hooks, context" },
-      { name: "TypeScript", level: 90, description: "Strong typing, advanced patterns, utility types" },
-      { name: "Next.js", level: 85, description: "SSR, SSG, API routes, middleware" },
-      { name: "Tailwind CSS", level: 92, description: "Custom components, responsive design" },
-      { name: "Vue.js", level: 78, description: "Composition API, Vuex, Vue Router" },
-      { name: "JavaScript", level: 95, description: "ES6+, async/await, DOM manipulation" },
+      { name: "React", level: 75, description: "Advanced component architecture, hooks, context" },
+      { name: "TypeScript", level: 75, description: "Strong typing, advanced patterns, utility types" },
+      { name: "Tailwind CSS", level: 60, description: "Custom components, responsive design" },
+      { name: "JavaScript", level: 80, description: "ES6+, async/await, DOM manipulation" },
+      { name: "Shadcn UI Components", level: 70, description: "Modern component library, design system" },
+      { name: "Better Auth UI", level: 70, description: "Modern component library, design system" },
     ]
   },
   backend: {
@@ -55,11 +57,12 @@ const skillCategories = {
     icon: Server,
     skills: [
       { name: "Node.js", level: 90, description: "Express, middleware, authentication" },
-      { name: "Python", level: 85, description: "Django, FastAPI, data analysis" },
+      { name: "Express.js", level: 85, description: "RESTful APIs, middleware, authentication" },
+      { name: "NestJS", level: 80, description: "TypeScript backend, decorators, dependency injection" },
       { name: "PostgreSQL", level: 88, description: "Complex queries, optimization, indexing" },
-      { name: "MongoDB", level: 82, description: "Aggregation, indexing, performance" },
-      { name: "GraphQL", level: 75, description: "Schema design, resolvers, Apollo" },
-      { name: "REST APIs", level: 92, description: "Design patterns, documentation, testing" },
+      { name: "BetterAuth", level: 75, description: "Modern authentication library, session management" },
+      { name: "Keycloak", level: 70, description: "Identity and access management, SSO, OAuth2" },
+      { name: "ElectricSQL", level: 65, description: "Real-time database synchronization, local-first apps" }
     ]
   },
   tools: {
@@ -67,11 +70,9 @@ const skillCategories = {
     icon: Wrench,
     skills: [
       { name: "Git", level: 88, description: "Branching strategies, merge conflicts, workflows" },
-      { name: "Docker", level: 82, description: "Containerization, docker-compose, optimization" },
+      { name: "Docker", level: 50, description: "Containerization, docker-compose, optimization" },
       { name: "AWS", level: 78, description: "EC2, S3, Lambda, RDS, CloudFront" },
-      { name: "Vercel", level: 85, description: "Deployment, serverless functions, analytics" },
-      { name: "Figma", level: 80, description: "Design systems, prototyping, collaboration" },
-      { name: "Jest", level: 87, description: "Unit testing, integration tests, mocking" },
+      { name: "Argo CD", level: 85, description: "Deployment, serverless functions, analytics" },
     ]
   },
 //   mobile: {
@@ -94,7 +95,9 @@ const skillIconGrid: Array<{ name: string; Icon: React.ComponentType<{ className
   { name: "Tailwind", Icon: SiTailwindcss, colorClass: "text-[#38BDF8]" },
   { name: "NestJS", Icon: SiNestjs, colorClass: "text-[#E0234E]" },
   { name: "PostgreSQL", Icon: SiPostgresql, colorClass: "text-[#4169E1]" },
-  { name: "BetterAuth", Icon: ShieldCheck, colorClass: "text-[#0EA5E9]" },
+  { name: "BetterAuth", Icon: Shield, colorClass: "text-[#0EA5E9]" },
+  { name: "Keycloak", Icon: SiKeycloak, colorClass: "text-[#4B5563]" },
+  { name: "ElectricSQL", Icon: Database, colorClass: "text-[#10B981]" },
   { name: "TypeScript", Icon: SiTypescript, colorClass: "text-[#3178C6]" },
   { name: "Node.js", Icon: SiNodedotjs, colorClass: "text-[#5FA04E]" },
   { name: "JavaScript", Icon: SiJavascript, colorClass: "text-[#F7DF1E]" },
@@ -119,7 +122,7 @@ function SkillTile({ skill, index }: { skill: any; index: number }) {
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: index * 0.05 }}
       viewport={{ once: true }}
-      className="rounded-xl border border-slate-200 dark:border-slate-800 bg-white/60 dark:bg-slate-900/40 backdrop-blur-sm p-5 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-0.5"
+      className="rounded-xl border border-border/40 bg-card/90 dark:bg-slate-900/40 backdrop-blur-sm p-5 shadow-soft dark:shadow-sm hover:shadow-medium dark:hover:shadow-md transition-all duration-300 hover:-translate-y-0.5"
     >
       <div className="flex items-start justify-between gap-3">
         <h4 className="font-semibold text-base">{skill.name}</h4>
@@ -197,7 +200,7 @@ function RadarChart({ title, data }: { title: string; data: Array<{ name: string
 
 export function Skills() {
   return (
-    <section id="skills" className="py-20 bg-muted/30 scroll-mt-24 md:scroll-mt-28">
+    <section id="skills" className="py-20 bg-gradient-light dark:bg-muted/30 scroll-mt-24 md:scroll-mt-28">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

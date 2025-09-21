@@ -103,7 +103,7 @@ export function Projects() {
 							transition={{ duration: 0.6, delay: index * 0.1 }}
 							viewport={{ once: true }}
 						>
-							<Card className="border-0 shadow-lg h-full">
+							<Card className="border border-border/60 shadow-medium dark:shadow-lg h-full hover:shadow-glow dark:hover:shadow-xl transition-all duration-300 bg-card/95 dark:bg-card">
 								<CardHeader className="pb-3">
 									<div className="flex items-center justify-between">
 										<div className="flex items-center gap-2">

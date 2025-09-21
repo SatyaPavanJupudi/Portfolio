@@ -3,32 +3,32 @@
 @tailwind utilities;
 
 :root {
-  /* Blue Theme (HSL) */
-  --background: 0 0% 100%; /* white */
-  --foreground: 222.2 47.4% 11.2%; /* slate-900 */
-  --card: 0 0% 100%;
-  --card-foreground: 222.2 47.4% 11.2%;
+  /* Enhanced Light Theme (HSL) */
+  --background: 0 0% 98%; /* Very light gray instead of pure white */
+  --foreground: 222.2 84% 4.9%; /* Deep dark blue-gray for better contrast */
+  --card: 0 0% 100%; /* Pure white for cards to stand out */
+  --card-foreground: 222.2 84% 4.9%;
   --popover: 0 0% 100%;
-  --popover-foreground: 222.2 47.4% 11.2%;
-  --primary: 221.2 83.2% 53.3%; /* blue-500 */
+  --popover-foreground: 222.2 84% 4.9%;
+  --primary: 221.2 83.2% 53.3%; /* Vibrant blue */
   --primary-foreground: 210 40% 98%;
-  --secondary: 210 40% 96.1%;
+  --secondary: 210 40% 96.1%; /* Light blue-gray */
   --secondary-foreground: 222.2 47.4% 11.2%;
-  --muted: 210 40% 96.1%;
+  --muted: 220 14% 96%; /* Subtle warm gray */
   --muted-foreground: 215.4 16.3% 46.9%;
-  --accent: 210 40% 96.1%;
-  --accent-foreground: 222.2 47.4% 11.2%;
+  --accent: 213.3 100% 96.9%; /* Very light blue accent */
+  --accent-foreground: 221.2 83.2% 53.3%; /* Blue foreground for accent */
   --destructive: 0 84.2% 60.2%;
   --destructive-foreground: 210 40% 98%;
-  --border: 214.3 31.8% 91.4%;
-  --input: 214.3 31.8% 91.4%;
+  --border: 220 13% 91%; /* Softer border color */
+  --input: 220 13% 91%;
   --ring: 221.2 83.2% 53.3%;
   --radius: 0.75rem;
 
-  /* Clean blue gradient colors (HSL) */
-  --gradient-from: 221.2 83.2% 53.3%;
-  --gradient-via: 217.2 91.2% 59.8%;
-  --gradient-to: 213.3 94% 68.2%;
+  /* Enhanced gradient colors for light theme */
+  --gradient-from: 221.2 83.2% 53.3%; /* Rich blue */
+  --gradient-via: 217.2 91.2% 59.8%; /* Bright blue */
+  --gradient-to: 213.3 94% 68.2%; /* Light blue */
 }
 
 .dark {
@@ -95,6 +95,36 @@
       hsl(var(--gradient-from)) 0%, 
       hsl(var(--gradient-via)) 50%, 
       hsl(var(--gradient-to)) 100%) 1;
+  }
+
+  /* Enhanced light theme utilities */
+  .bg-glass-light {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+  
+  .shadow-soft {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 
+                0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  }
+  
+  .shadow-medium {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 
+                0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  }
+  
+  .shadow-glow {
+    box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.1),
+                0 4px 6px -1px rgba(59, 130, 246, 0.1),
+                0 2px 4px -1px rgba(59, 130, 246, 0.06);
+  }
+  
+  .bg-gradient-light {
+    background: linear-gradient(135deg, 
+      rgba(59, 130, 246, 0.05) 0%, 
+      rgba(147, 197, 253, 0.08) 50%, 
+      rgba(219, 234, 254, 0.05) 100%);
   }
 }
 

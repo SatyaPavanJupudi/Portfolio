@@ -22,39 +22,70 @@ export function Header() {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
     };
+    
+    handleScroll();
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   // Track which section is in view and highlight the matching nav item
   useEffect(() => {
-    const ids = navigation.map((n) => n.href.replace('#', ''));
-    const sections = ids
-      .map((id) => document.getElementById(id))
-      .filter((el): el is HTMLElement => !!el);
-
-    if (sections.length === 0) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((e) => e.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-        if (visible?.target?.id) {
-          setActive(`#${visible.target.id}`);
+    const handleScrollSpy = () => {
+      const scrollPosition = window.scrollY + 100; // Account for header height
+      
+      // Get all sections with their positions
+      const sectionElements = navigation.map((nav) => {
+        const element = document.getElementById(nav.href.replace('#', ''));
+        if (element) {
+          return {
+            href: nav.href,
+            element,
+            top: element.offsetTop,
+            height: element.offsetHeight
+          };
         }
-      },
-      {
-        // Consider the center band of the viewport as the active zone
-        root: null,
-        rootMargin: "-45% 0px -45% 0px",
-        threshold: [0.1, 0.25, 0.5, 0.75],
+        return null;
+      }).filter(Boolean);
+      
+      // Find the section that should be active
+      let activeSection = null;
+      
+      for (let i = sectionElements.length - 1; i >= 0; i--) {
+        const section = sectionElements[i];
+        if (scrollPosition >= section!.top - 50) {
+          activeSection = section;
+          break;
+        }
       }
-    );
-
-    sections.forEach((sec) => observer.observe(sec));
-    return () => observer.disconnect();
-  }, []);
+      
+      // Default to home if we're at the very top
+      if (scrollPosition < 100) {
+        activeSection = sectionElements.find(s => s!.href === '#home');
+      }
+      
+      if (activeSection && activeSection.href !== active) {
+        setActive(activeSection.href);
+      }
+    };
+    
+    // Initial check
+    handleScrollSpy();
+    
+    // Add scroll listener with throttling
+    let ticking = false;
+    const onScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          handleScrollSpy();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+    
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, [active]);
 
   useEffect(() => {
     if (isDark) {
@@ -70,18 +101,25 @@ export function Header() {
     } else {
       const element = document.querySelector(href);
       if (element instanceof HTMLElement) {
-        element.scrollIntoView({ behavior: "smooth", block: "start" });
+        // Add extra offset to account for header height
+        const headerHeight = 80;
+        const elementPosition = element.offsetTop - headerHeight;
+        window.scrollTo({ 
+          top: elementPosition, 
+          behavior: "smooth" 
+        });
       }
     }
     setIsMenuOpen(false);
-  setActive(href);
+    // Set active immediately for better UX
+    setActive(href);
   };
 
   return (
     <header
       className={`fixed top-0 w-full z-50 transition-all duration-300 ${
         isScrolled
-          ? "bg-white/90 dark:bg-slate-900/90 backdrop-blur-lg border-b border-blue-200 dark:border-slate-700 shadow-lg"
+          ? "bg-card/95 dark:bg-slate-900/90 backdrop-blur-lg border-b border-border/60 shadow-medium dark:shadow-lg"
           : "bg-transparent"
       }`}
     >

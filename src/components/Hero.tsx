@@ -35,11 +35,10 @@ export function Hero() {
   }, []);
 
   return (
-    <section className="min-h-screen flex items-center justify-center relative overflow-hidden bg-white dark:bg-slate-900 pt-20 sm:pt-24">
-      {/* Enhanced Background Elements */}
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-blue-100 to-blue-200 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900" />
-      <div className="absolute top-10 left-4 w-40 h-40 sm:top-20 sm:left-12 sm:w-72 sm:h-72 bg-gradient-to-r from-blue-400/20 to-blue-500/20 rounded-full blur-3xl animate-pulse" />
-      <div className="hidden sm:block absolute bottom-10 right-6 w-64 h-64 md:w-96 md:h-96 bg-gradient-to-r from-blue-500/20 to-blue-400/20 rounded-full blur-3xl animate-pulse" />
+    <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden bg-background dark:bg-slate-900 pt-20 sm:pt-24">
+      <div className="absolute inset-0 bg-gradient-to-br from-blue-50/80 via-white to-blue-100/60 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900" />
+      <div className="absolute top-10 left-4 w-40 h-40 sm:top-20 sm:left-12 sm:w-72 sm:h-72 bg-gradient-to-r from-blue-400/15 to-blue-600/15 dark:from-blue-400/20 dark:to-blue-500/20 rounded-full blur-3xl animate-pulse" />
+      <div className="hidden sm:block absolute bottom-10 right-6 w-64 h-64 md:w-96 md:h-96 bg-gradient-to-r from-blue-500/15 to-blue-300/20 dark:from-blue-500/20 dark:to-blue-400/20 rounded-full blur-3xl animate-pulse" />
       
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center">
@@ -50,7 +49,7 @@ export function Hero() {
           >
             <Badge
               variant="outline"
-              className="mb-6 px-6 py-3 text-sm font-medium border-blue-300 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm hover:bg-blue-50 dark:hover:bg-slate-700 transition-all duration-300"
+              className="mb-6 px-6 py-3 text-sm font-medium border-blue-200/60 bg-white/90 dark:bg-slate-800/80 backdrop-blur-sm hover:bg-blue-50/80 dark:hover:bg-slate-700 transition-all duration-300 shadow-soft dark:shadow-none"
             >
               <Sparkles className="w-4 h-4 mr-2 text-blue-600" />
               Welcome to my portfolio

@@ -109,7 +109,7 @@ export function Contact() {
   };
 
   return (
-    <section id="contact" className="py-20 bg-muted/30">
+    <section id="contact" className="py-20 bg-gradient-light dark:bg-muted/30">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -140,14 +140,14 @@ export function Contact() {
             viewport={{ once: true }}
             className="space-y-6"
           >
-            <Card className="border-0 shadow-lg">
+            <Card className="border border-border/60 shadow-medium dark:shadow-lg bg-card/95 dark:bg-card hover:shadow-glow dark:hover:shadow-xl transition-all duration-300">
               <CardHeader>
                 <CardTitle className="text-xl">Contact Information</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 {contactInfo.map((info) => (
                   <div key={info.label} className="flex items-start gap-4 flex-wrap">
-                    <div className={`w-12 h-12 ${info.bgColor} rounded-lg flex items-center justify-center transition-transform hover:scale-105`}>
+                    <div className={`w-12 h-12 ${info.bgColor} rounded-lg flex items-center justify-center transition-transform hover:scale-105 shadow-soft dark:shadow-none`}>
                       <info.icon className={`w-5 h-5 ${info.iconColor}`} />
                     </div>
                     <div className="min-w-0">
@@ -164,7 +164,7 @@ export function Contact() {
               </CardContent>
             </Card>
 
-            <Card className="border-0 shadow-lg">
+            <Card className="border border-border/60 shadow-medium dark:shadow-lg bg-card/95 dark:bg-card hover:shadow-glow dark:hover:shadow-xl transition-all duration-300">
               <CardHeader>
                 <CardTitle className="text-xl">Follow Me</CardTitle>
               </CardHeader>
@@ -172,7 +172,7 @@ export function Contact() {
                 {socialLinks.map((social) => (
                   <div key={social.label} className="flex w-full flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
                     <div className="flex items-start sm:items-center gap-4 min-w-0">
-                      <div className={`w-12 h-12 ${social.bgColor} rounded-lg flex items-center justify-center transition-transform hover:scale-105`}>
+                      <div className={`w-12 h-12 ${social.bgColor} rounded-lg flex items-center justify-center transition-transform hover:scale-105 shadow-soft dark:shadow-none`}>
                         <social.icon className={`w-5 h-5 ${social.iconColor}`} />
                       </div>
                       <div className="min-w-0">
@@ -202,7 +202,7 @@ export function Contact() {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <Card className="border-0 shadow-lg">
+            <Card className="border border-border/60 shadow-medium dark:shadow-lg bg-card/95 dark:bg-card hover:shadow-glow dark:hover:shadow-xl transition-all duration-300">
               <CardHeader>
                 <CardTitle className="text-xl">Send Me a Message</CardTitle>
               </CardHeader>
