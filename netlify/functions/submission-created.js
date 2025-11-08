@@ -1,122 +1,143 @@
 // Netlify Function: Handles Netlify Forms submission-created event.
-// Sends confirmation email to the user (via Resend) and optionally forwards to owner.
+// Sends confirmation email to the user and forwards to owner via Gmail
 // Environment variables required (set in Netlify UI):
-//   RESEND_API_KEY - API key from https://resend.com (free tier available)
-//   SITE_OWNER_EMAIL - Your email address to receive a copy (optional)
-//   SITE_FROM_EMAIL - Verified sender email in Resend (e.g., no-reply@yourdomain.com)
+//   GMAIL_USER - Gmail address (e.g., jupudisatyapavan@gmail.com)
+//   GMAIL_APP_PASSWORD - Gmail app password (16 characters)
+//   SITE_OWNER_EMAIL - Your email address to receive submissions
 
-const RESEND_API = "https://api.resend.com/emails";
+const nodemailer = require("nodemailer");
 
-// Gmail sender via nodemailer (uses env: GMAIL_USER, GMAIL_APP_PASSWORD, optional GMAIL_FROM_NAME)
+console.log("submission-created function loaded");
+
+// Gmail sender via nodemailer
 async function sendEmailGmail({ to, subject, html, replyTo }) {
   try {
-    const mod = await import("nodemailer");
-    const nodemailer = mod.default || mod;
     const user = process.env.GMAIL_USER;
     const pass = process.env.GMAIL_APP_PASSWORD;
+    
     if (!user || !pass) {
-      console.warn("GMAIL_USER or GMAIL_APP_PASSWORD not configured; skipping Gmail send.");
-      return { skipped: true };
+      console.error("GMAIL_USER or GMAIL_APP_PASSWORD not configured");
+      return { skipped: true, error: "Gmail credentials missing" };
     }
+
+    console.log(`Attempting to send email to: ${to} from: ${user}`);
+
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: { user, pass },
     });
+
     const fromName = process.env.GMAIL_FROM_NAME || "Satya Pavan";
-    const info = await transporter.sendMail({
+    const mailOptions = {
       from: `${fromName} <${user}>`,
       to,
       subject,
       html,
-      replyTo,
-    });
+      replyTo: replyTo || user,
+    };
+
+    const info = await transporter.sendMail(mailOptions);
+    console.log(`Email sent successfully to ${to}:`, info.messageId);
     return { ok: true, id: info.messageId };
   } catch (e) {
-    console.error("Gmail send failed:", e);
-    throw e;
+    console.error("Gmail send failed:", e.message, e);
+    return { ok: false, error: e.message };
   }
-}
-
-async function sendEmail({ to, from, subject, html, replyTo }) {
-  const apiKey = process.env.RESEND_API_KEY;
-  if (!apiKey) {
-    console.warn("RESEND_API_KEY not configured; skipping email send.");
-    return { skipped: true };
-  }
-  const res = await fetch(RESEND_API, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      "Content-Type": "application/json",
-    },
-  body: JSON.stringify({ to, from, subject, html, reply_to: replyTo }),
-  });
-  if (!res.ok) {
-    const text = await res.text();
-    console.error("Resend send failed:", res.status, text);
-    throw new Error("Email send failed");
-  }
-  return res.json();
 }
 
 exports.handler = async (event) => {
+  console.log("Handler called with event:", JSON.stringify(event, null, 2));
+  
   try {
-    const body = event.body ? JSON.parse(event.body) : {};
-    const submission = body?.payload?.data || {};
-
-    const name = String(submission.name || "").trim();
-    const email = String(submission.email || "").trim();
-    const subject = String(submission.subject || "").trim() || "Thanks for contacting us";
-    const message = String(submission.message || "").trim();
-
-  const fromEmail = (process.env.SITE_FROM_EMAIL || "onboarding@resend.dev").trim();
-    const ownerEmail = process.env.SITE_OWNER_EMAIL;
-  const isOnboarding = fromEmail.toLowerCase().endsWith("@resend.dev");
-  const useGmail = Boolean(process.env.GMAIL_USER && process.env.GMAIL_APP_PASSWORD);
-
-    if (email) {
-      const html = `
-        <div style="font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;max-width:640px;margin:auto;padding:24px;">
-          <h2>Hi ${name || "there"},</h2>
-          <p>Thanks for reaching out. We received your message and will get back to you soon.</p>
-          <hr style="border:none;border-top:1px solid #eee;margin:16px 0" />
-          <p><strong>Your message:</strong></p>
-          <p style="white-space:pre-wrap;">${message}</p>
-          <p style="margin-top:24px;color:#64748b;font-size:12px;">This is an automated confirmation.</p>
-        </div>
-      `;
-      if (useGmail) {
-        await sendEmailGmail({ to: email, subject, html, replyTo: ownerEmail || process.env.GMAIL_USER });
-      } else if (!isOnboarding) {
-        await sendEmail({ to: email, from: fromEmail, subject, html, replyTo: ownerEmail || fromEmail });
-      } else {
-        console.info("Resend onboarding sender in use; skipping user confirmation email. Verify a domain in Resend and set SITE_FROM_EMAIL to that domain to enable.");
+    // Parse the event body
+    let submission = {};
+    
+    if (event.body) {
+      try {
+        const body = JSON.parse(event.body);
+        submission = body?.payload?.data || body || {};
+      } catch (e) {
+        console.error("Failed to parse event body:", e);
+        submission = event.body;
       }
     }
 
-    if (ownerEmail) {
-      const html = `
-        <div style="font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;max-width:640px;margin:auto;padding:24px;">
-          <h3>New contact submission</h3>
-          <p><strong>Name:</strong> ${name}</p>
-          <p><strong>Email:</strong> ${email}</p>
-          <p><strong>Subject:</strong> ${subject}</p>
-          <p><strong>Message:</strong></p>
-          <p style="white-space:pre-wrap;">${message}</p>
+    console.log("Submission data:", submission);
+
+    const name = String(submission.name || "").trim();
+    const email = String(submission.email || "").trim();
+    const subject = String(submission.subject || "").trim() || "New Message";
+    const message = String(submission.message || "").trim();
+
+    const ownerEmail = process.env.SITE_OWNER_EMAIL;
+    const gmailUser = process.env.GMAIL_USER;
+
+    console.log(`Processing submission - Name: ${name}, Email: ${email}, Subject: ${subject}`);
+    console.log(`Owner Email: ${ownerEmail}, Gmail User: ${gmailUser}`);
+
+    // Send confirmation email to user
+    if (email) {
+      console.log(`Sending confirmation email to user: ${email}`);
+      const userHtml = `
+        <div style="font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;max-width:640px;margin:auto;padding:24px;background:#f9fafb;border-radius:8px;">
+          <h2 style="color:#1f2937;">Hi ${name || "there"},</h2>
+          <p style="color:#4b5563;line-height:1.6;">Thanks for reaching out. We received your message and will get back to you soon.</p>
+          <hr style="border:none;border-top:1px solid #e5e7eb;margin:24px 0;" />
+          <p style="color:#1f2937;font-weight:600;">Your message:</p>
+          <div style="background:#fff;padding:16px;border-left:4px solid #3b82f6;margin:16px 0;border-radius:4px;">
+            <p style="white-space:pre-wrap;color:#4b5563;margin:0;">${message}</p>
+          </div>
+          <p style="margin-top:24px;color:#9ca3af;font-size:12px;">This is an automated confirmation. Please do not reply to this email.</p>
         </div>
       `;
-  if (ownerEmail) {
-    if (useGmail) {
-      await sendEmailGmail({ to: ownerEmail, subject: `Contact: ${subject}`, html, replyTo: email || process.env.GMAIL_USER });
-    } else {
-      await sendEmail({ to: ownerEmail, from: fromEmail, subject: `Contact: ${subject}`, html, replyTo: email || undefined });
-    }
-  }
+      
+      const userResult = await sendEmailGmail({
+        to: email,
+        subject: "We received your message",
+        html: userHtml,
+        replyTo: ownerEmail || gmailUser,
+      });
+      console.log("User email result:", userResult);
     }
 
-    return { statusCode: 200, body: JSON.stringify({ ok: true }) };
+    // Send notification email to owner
+    if (ownerEmail) {
+      console.log(`Sending notification email to owner: ${ownerEmail}`);
+      const ownerHtml = `
+        <div style="font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;max-width:640px;margin:auto;padding:24px;background:#f9fafb;border-radius:8px;">
+          <h2 style="color:#1f2937;">📬 New Contact Form Submission</h2>
+          <div style="background:#fff;padding:16px;border-radius:8px;margin:16px 0;border:1px solid #e5e7eb;">
+            <p style="margin:8px 0;"><strong style="color:#1f2937;">Name:</strong> <span style="color:#4b5563;">${name}</span></p>
+            <p style="margin:8px 0;"><strong style="color:#1f2937;">Email:</strong> <span style="color:#4b5563;"><a href="mailto:${email}">${email}</a></span></p>
+            <p style="margin:8px 0;"><strong style="color:#1f2937;">Subject:</strong> <span style="color:#4b5563;">${subject}</span></p>
+          </div>
+          <p style="color:#1f2937;font-weight:600;margin-top:16px;">Message:</p>
+          <div style="background:#fff;padding:16px;border-left:4px solid #10b981;margin:16px 0;border-radius:4px;">
+            <p style="white-space:pre-wrap;color:#4b5563;margin:0;">${message}</p>
+          </div>
+          <p style="margin-top:24px;color:#9ca3af;font-size:12px;">You can reply directly to this email to contact them.</p>
+        </div>
+      `;
+      
+      const ownerResult = await sendEmailGmail({
+        to: ownerEmail,
+        subject: `Contact: ${subject}`,
+        html: ownerHtml,
+        replyTo: email || gmailUser,
+      });
+      console.log("Owner email result:", ownerResult);
+    }
+
+    console.log("Handler completed successfully");
+    return {
+      statusCode: 200,
+      body: JSON.stringify({ ok: true, message: "Emails sent" }),
+    };
   } catch (err) {
-    console.error("submission-created handler error", err);
-    return { statusCode: 200, body: JSON.stringify({ ok: false }) };
+    console.error("submission-created handler error:", err);
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ ok: false, error: err.message }),
+    };
   }
 };
