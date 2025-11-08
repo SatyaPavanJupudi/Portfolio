@@ -132,7 +132,7 @@ exports.handler = async (event) => {
       
       const userResult = await sendEmailGmail({
         to: email,
-        subject: "✓ We received your message",
+        subject: "✓ I received your message",
         html: userHtml,
         replyTo: ownerEmail || gmailUser,
       });

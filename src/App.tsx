@@ -35,7 +35,7 @@ function App() {
   return (
     <div className="min-h-screen bg-background text-foreground">
       {isLoading && <LoadingScreen />}
-      <Header />
+      {!isLoading && <Header />}
       <main>
         <Hero />
         <About />

@@ -86,18 +86,16 @@ const LoadingScreen: React.FC = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
         >
-          <h1 className="text-2xl md:text-3xl font-bold text-gradient mb-2">
-            Satya Pavan
-          </h1>
-          <p className="text-lg md:text-xl font-semibold text-foreground/70">Portfolio</p>
-
-          {/* Animated loading text */}
-          <motion.div className="flex items-center justify-center gap-1 mt-4">
-            <span className="text-foreground/60 text-sm md:text-base">Loading</span>
+          {/* Single line text */}
+          <motion.div className="flex items-center justify-center gap-2">
+            <span className="text-lg md:text-xl font-semibold text-gradient">
+              Satya Pavan Portfolio
+            </span>
+            <span className="text-foreground/60 text-lg md:text-xl">Loading</span>
             {[0, 1, 2].map((index) => (
               <motion.span
                 key={index}
-                className="text-primary font-bold"
+                className="text-primary font-bold text-lg md:text-xl"
                 animate={{ opacity: [0.3, 1, 0.3] }}
                 transition={{
                   duration: 1.2,
