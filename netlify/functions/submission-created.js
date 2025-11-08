@@ -81,7 +81,7 @@ exports.handler = async (event) => {
               </p>
               
               <p style="color: #4b5563; font-size: 15px; line-height: 1.8; margin: 0 0 32px 0;">
-                Thank you for reaching out! We've received your message and appreciate you taking the time to connect with us. Your inquiry is important to us, and we'll get back to you as soon as possible.
+                Thank you for reaching out! I've received your message and appreciate you taking the time to connect with me. Your inquiry is important to me, and I'll get back to you as soon as possible.
               </p>
 
               <!-- Message summary box -->
@@ -104,7 +104,7 @@ exports.handler = async (event) => {
               <!-- Info box -->
               <div style="background-color: #ecf0ff; border-radius: 8px; padding: 16px 20px; margin: 32px 0; border: 1px solid #dbeafe;">
                 <p style="color: #4c51bf; font-size: 13px; line-height: 1.6; margin: 0;">
-                  <strong>💡 Tip:</strong> Keep this email for your reference. We may mention details from your message in our reply.
+                  <strong>💡 Tip:</strong> Keep this email for your reference. I may mention details from your message in my reply.
                 </p>
               </div>
 
@@ -158,7 +158,7 @@ exports.handler = async (event) => {
 
             <!-- Main content -->
             <div style="background-color: #ffffff; padding: 40px 30px; margin: 0;">
-              <p style="color: #1f2937; font-size: 16px; line-height: 1.6; margin: 0 0 24px 0;">
+              <p style="color: #4b5563; font-size: 15px; line-height: 1.6; margin: 0 0 24px 0;">
                 Hey Satya,
               </p>
               

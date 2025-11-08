@@ -2,7 +2,8 @@ import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { motion } from "framer-motion";
+import { Toast } from "@/components/ui/toast";
+import { motion, AnimatePresence } from "framer-motion";
 import { 
   Mail, 
   Phone, 
@@ -74,6 +75,7 @@ export function Contact() {
     message: ""
   });
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
+  const [toast, setToast] = useState<{ type: "success" | "error"; message: string } | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({
@@ -98,13 +100,17 @@ export function Contact() {
       });
       if (res.ok) {
         setStatus("success");
+        setToast({ type: "success", message: "Thanks! Your message was sent successfully. I'll get back to you soon!" });
         setFormData({ name: "", email: "", subject: "", message: "" });
+        setTimeout(() => setStatus("idle"), 5000);
       } else {
         throw new Error("Network response was not ok");
       }
     } catch (err) {
       setStatus("error");
+      setToast({ type: "error", message: "Something went wrong. Please try again." });
       console.error("Form submission failed", err);
+      setTimeout(() => setStatus("idle"), 5000);
     }
   };
 
@@ -293,12 +299,6 @@ export function Contact() {
                       <Send className="w-4 h-4 mr-2" />
                       {status === "submitting" ? "Sending..." : "Send Message"}
                     </Button>
-                    {status === "success" && (
-                      <p className="text-sm text-emerald-600">Thanks! Your message was sent.</p>
-                    )}
-                    {status === "error" && (
-                      <p className="text-sm text-rose-600">Something went wrong. Please try again.</p>
-                    )}
                   </div>
                 </form>
               </CardContent>
@@ -306,6 +306,27 @@ export function Contact() {
           </motion.div>
         </div>
       </div>
+
+      {/* Toast Notifications */}
+      <AnimatePresence>
+        {toast && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 20 }}
+            transition={{ duration: 0.3 }}
+          >
+            <Toast
+              variant={toast.type}
+              position="bottom-right"
+              title={toast.type === "success" ? "✓ Success" : "✗ Error"}
+              description={toast.message}
+              onClose={() => setToast(null)}
+              duration={5000}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }
