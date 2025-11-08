@@ -28,8 +28,7 @@ export function Footer() {
                 Satya Pavan Jupudi
               </h3>
               <p className="text-muted-foreground mb-6 max-w-md md:max-w-xl mx-auto md:mx-0 text-justify">
-                Full-Stack Developer passionate about creating exceptional digital 
-                experiences with modern technologies and innovative solutions.
+                Crafting innovative digital solutions as a full-stack developer. I combine technical expertise with creative problem-solving to deliver impactful web experiences that make a difference.
               </p>
               <div className="flex justify-center md:justify-start gap-3">
                 <Button

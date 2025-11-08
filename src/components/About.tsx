@@ -61,11 +61,8 @@ export function About() {
 					<h2 className="text-3xl sm:text-4xl font-bold mb-6">
 						Passionate Developer & Problem Solver
 					</h2>
-					<p className="text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-						With over 5 years of experience in full-stack development, I specialize in
-						creating modern web applications that combine beautiful design with robust
-						functionality. I'm passionate about learning new technologies and turning
-						complex problems into simple, elegant solutions.
+					<p className="text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed text-justify">
+						A dedicated full-stack developer with 1 year of hands-on experience building dynamic web applications. I transform ideas into elegant, user-centric solutions by blending creative design with solid technical architecture. I thrive on solving challenging problems and continuously expanding my skillset with emerging technologies.
 					</p>
 				</motion.div>
 

@@ -13,10 +13,10 @@ const experiences = [
 		description:
 			"Leading development of enterprise web applications using React, Node.js, and cloud technologies. Mentoring junior developers and driving technical architecture decisions.",
 		achievements: [
-			"Improved application performance by 40% through code optimization",
-			"Led migration from legacy system to modern microservices architecture",
-			"Mentored 5+ junior developers and conducted technical interviews",
-			"Implemented CI/CD pipelines reducing deployment time by 60%",
+			"Architected and deployed 4+ enterprise web applications handling 10,000+ daily active users",
+			"Led technical implementation of payment gateway integration and transaction processing",
+			"Optimized application performance resulting in 35% reduction in load time",
+			"Implemented secure authentication and authorization systems using Better Auth",
 		],
 		technologies: ["React", "Node.js", "NestJS", "TypeScript", "PostgreSQL", "Docker", "Better Auth", "shadcn/ui"],
 	},
@@ -30,10 +30,10 @@ const experiences = [
 		description:
 			"Developed scalable web applications and REST APIs for client projects. Collaborated with design and product teams to deliver high-quality solutions.",
 		achievements: [
-			"Built 15+ client projects from concept to deployment",
-			"Reduced API response time by 50% through database optimization",
-			"Introduced automated testing practices improving code quality",
-			"Collaborated with UX team to improve user engagement by 35%",
+			"Developed 2+ fintech-related web applications and REST APIs from requirements to deployment",
+			"Built responsive UI components with React and modern styling frameworks",
+			"Designed and optimized PostgreSQL databases for efficient data retrieval",
+			"Debugged and resolved production issues with rapid turnaround time",
 		],
 		technologies: ["React", "Express.js", "PostgreSQL", "Node.js", "GitHub"],
 	},
@@ -46,10 +46,10 @@ const experiences = [
 		description:
 			"Specialized in creating responsive and interactive user interfaces for various client websites and web applications.",
 		achievements: [
-			"Developed 20+ responsive websites with perfect mobile compatibility",
-			"Improved website loading speed by 45% through optimization techniques",
-			"Implemented modern build tools and development workflows",
-			"Maintained 98% client satisfaction rate",
+			"Organized and conducted workshops on cloud computing and programming fundamentals",
+			"Mentored 20+ students in web development best practices and coding standards",
+			"Created educational content and technical documentation for community members",
+			"Promoted technology awareness and skill development within the student community",
 		],
 		technologies: ["React", "JavaScript", "HTML5", "CSS3", "SQL"],
 	},

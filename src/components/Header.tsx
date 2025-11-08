@@ -127,7 +127,7 @@ export function Header() {
         <div className="flex justify-between items-center py-4">
           <div className="flex-shrink-0">
             <h1 className="text-2xl font-bold text-blue-600 hover:text-blue-500 transition-colors duration-300">
-              Portfolio
+              Full Stack Developer
             </h1>
           </div>
 
