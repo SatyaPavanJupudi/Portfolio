@@ -1,7 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { motion } from "framer-motion";
-import { User, Code2, Lightbulb, Target } from "lucide-react";
+import { User, Code2, Lightbulb, Target, Briefcase } from "lucide-react";
 
 const features = [
 	{
@@ -74,16 +74,26 @@ export function About() {
 						viewport={{ once: true }}
 					>
 						<div className="relative">
-							<div className="aspect-square bg-gradient-to-br from-blue-50/80 to-blue-100/60 dark:from-blue-900/20 dark:to-blue-800/20 rounded-2xl p-8 flex items-center justify-center shadow-medium dark:shadow-none">
-								<div className="w-full h-full bg-card/80 backdrop-blur-sm rounded-xl border border-border/60 flex items-center justify-center shadow-soft dark:shadow-none">
-									<div className="text-center">
-										<div className="w-24 h-24 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4 shadow-soft dark:shadow-none">
-											<User className="w-12 h-12 text-primary" />
-										</div>
-										<h3 className="text-2xl font-bold mb-2">
+							<div className="bg-gradient-to-br from-blue-50/80 to-blue-100/60 dark:from-blue-900/20 dark:to-blue-800/20 rounded-2xl shadow-medium dark:shadow-none flex flex-col overflow-hidden min-h-[440px]">
+								{/* Image Section */}
+								<div className="w-full h-80 flex items-center justify-center bg-gradient-to-b from-muted/20 to-transparent overflow-hidden min-h-[330px]">
+									<img 
+										src="/src/assets/33516.png" 
+										alt="Satya Pavan" 
+										className="w-full h-auto object-cover mt-10"
+									/>
+								</div>
+								{/* Name and Title Section */}
+								<div className="text-center px-6 py-6 w-full border-t border-border/30">
+									<div className="flex items-center justify-center gap-2 mb-3">
+										<User className="w-5 h-5 text-primary" />
+										<h3 className="text-2xl font-bold">
 											Satya Pavan Jupudi
 										</h3>
-										<p className="text-muted-foreground">
+									</div>
+									<div className="flex items-center justify-center gap-2">
+										<Briefcase className="w-4 h-4 text-primary" />
+										<p className="text-lg font-semibold text-muted-foreground">
 											Full-Stack Developer
 										</p>
 									</div>

@@ -35,9 +35,9 @@
   /* Dark theme (HSL) */
   --background: 222.2 84% 4.9%;
   --foreground: 210 40% 98%;
-  --card: 222.2 84% 4.9%;
+  --card: 222.2 47.4% 11.2%; /* Slightly lighter than background for card distinction */
   --card-foreground: 210 40% 98%;
-  --popover: 222.2 84% 4.9%;
+  --popover: 222.2 47.4% 11.2%;
   --popover-foreground: 210 40% 98%;
   --primary: 213.3 94% 68.2%; /* blue-400/500 for dark */
   --primary-foreground: 222.2 47.4% 11.2%;
