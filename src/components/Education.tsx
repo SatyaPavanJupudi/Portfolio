@@ -3,6 +3,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { motion } from "framer-motion";
 import { GraduationCap, Calendar, MapPin, Award, BookOpen, School } from "lucide-react";
+import betchLogo from "@/assets/betchlogo.png";
+import interLogo from "@/assets/inter.png";
+import schoolLogo from "@/assets/schoolimage.png";
 
 type EducationItem = {
   degree: string;
@@ -69,6 +72,13 @@ const certifications = [
   { name: "Docker & DevOps Essentials" },
   { name: "Database Design & SQL" },
 ];
+
+// Map education to their logos
+const educationLogos: { [key: number]: string } = {
+  0: betchLogo, // B.Tech
+  1: interLogo, // Intermediate
+  2: schoolLogo, // Schooling
+};
 
 // Function to get appropriate icon for each education level
 const getEducationIcon = (degree: string, fullDegree?: string) => {
@@ -297,19 +307,23 @@ export function Education() {
                   className="flex flex-wrap items-center gap-6 text-sm mb-6 p-4 rounded-xl bg-muted/30 dark:bg-muted/20 border border-border/30"
                 >
                   <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
-                      <BookOpen className="w-4 h-4 text-primary" />
+                    <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                      <img 
+                        src={educationLogos[active] || schoolLogo}
+                        alt="Institution Logo"
+                        className="w-8 h-8 object-contain"
+                      />
                     </div>
                     <span className="font-medium text-foreground">{activeEd.school}</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
+                    <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
                       <Calendar className="w-4 h-4 text-primary" />
                     </div>
                     <span className="font-medium text-foreground">{activeEd.period}</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
+                    <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
                       <MapPin className="w-4 h-4 text-primary" />
                     </div>
                     <span className="font-medium text-foreground">{activeEd.location}</span>
