@@ -2,6 +2,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { motion } from "framer-motion";
 import { User, Code2, Lightbulb, Target, Briefcase } from "lucide-react";
+import profileImg from "@/assets/33516.png";
 
 const features = [
 	{
@@ -78,7 +79,7 @@ export function About() {
 								{/* Image Section */}
 								<div className="w-full h-80 flex items-center justify-center bg-gradient-to-b from-muted/20 to-transparent overflow-hidden min-h-[330px]">
 									<img 
-										src="/src/assets/33516.png" 
+										src={profileImg}
 										alt="Satya Pavan" 
 										className="w-full h-auto object-cover mt-10"
 									/>
