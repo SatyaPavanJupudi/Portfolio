@@ -6,11 +6,7 @@ import {
   Code2, 
   Wrench, 
   Globe,
-  Server,
-  SquareStack,
-  Database,
-  Shield,
-  Lock
+  Server
 } from "lucide-react";
 import { 
   SiReact,
@@ -22,8 +18,7 @@ import {
   SiNestjs,
   SiGithub,
   SiDocker,
-  SiArgo,
-  SiKeycloak
+  SiArgo
 } from "react-icons/si";
 import {
   Chart as ChartJS,
