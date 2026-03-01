@@ -1,7 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { motion } from "framer-motion";
-import { Briefcase } from "lucide-react";
+import { Briefcase, MapPin } from "lucide-react";
 
 const experiences = [
 	{
@@ -48,7 +48,6 @@ const experiences = [
 		achievements: [
 			"Organized and conducted workshops on cloud computing and programming fundamentals",
 			"Mentored 20+ students in web development best practices and coding standards",
-			"Created educational content and technical documentation for community members",
 			"Promoted technology awareness and skill development within the student community",
 		],
 		technologies: ["React", "JavaScript", "HTML5", "CSS3", "SQL"],
@@ -97,7 +96,7 @@ export function Experience() {
 										{exp.type && <Badge variant="secondary">{exp.type}</Badge>}
 										{(exp as any).duration && <Badge variant="outline">{(exp as any).duration}</Badge>}
 										{exp.period && <div className="text-muted-foreground">{exp.period}</div>}
-										{exp.location && <div className="text-muted-foreground">• {exp.location}</div>}
+								{exp.location && <div className="text-muted-foreground flex items-center gap-1"><MapPin className="w-3 h-3" />{exp.location}</div>}
 									</div>
 
 									{/* Heading */}

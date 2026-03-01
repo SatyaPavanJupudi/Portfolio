@@ -32,7 +32,7 @@ const skills = [
 	"Tailwind CSS",
 	"Shadcn/ui",
 	"Better Auth UI",
-	"Key Cloak",
+	"Open FGA",
 	"Better Auth",
 	"Electric SQL",
 	"Express.js",
@@ -41,6 +41,7 @@ const skills = [
 	"PostgreSQL",
 	"Docker",
 	"Github",
+	"GitHub Actions",
 	"Argo CD",
 ];
 

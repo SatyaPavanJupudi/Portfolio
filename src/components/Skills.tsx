@@ -9,7 +9,8 @@ import {
   Server,
   SquareStack,
   Database,
-  Shield
+  Shield,
+  Lock
 } from "lucide-react";
 import { 
   SiReact,
@@ -61,7 +62,8 @@ const skillCategories = {
       { name: "NestJS", level: 80, description: "TypeScript backend, decorators, dependency injection" },
       { name: "PostgreSQL", level: 88, description: "Complex queries, optimization, indexing" },
       { name: "BetterAuth", level: 75, description: "Modern authentication library, session management" },
-      { name: "Keycloak", level: 70, description: "Identity and access management, SSO, OAuth2" },
+      // { name: "Keycloak", level: 70, description: "Identity and access management, SSO, OAuth2" },/
+      { name: "Open FGA", level: 70, description: "Fine-grained authorization, policy management" },
       { name: "ElectricSQL", level: 65, description: "Real-time database synchronization, local-first apps" }
     ]
   },
@@ -69,10 +71,11 @@ const skillCategories = {
     title: "Tools & DevOps",
     icon: Wrench,
     skills: [
-      { name: "Git", level: 88, description: "Branching strategies, merge conflicts, workflows" },
+      { name: "Git", level: 75, description: "Branching strategies, merge conflicts, workflows" },
       { name: "Docker", level: 50, description: "Containerization, docker-compose, optimization" },
-      { name: "AWS", level: 78, description: "EC2, S3, Lambda, RDS, CloudFront" },
-      { name: "Argo CD", level: 85, description: "Deployment, serverless functions, analytics" },
+      { name: "AWS", level: 50, description: "EC2, S3, Lambda, RDS, CloudFront" },
+      { name: "GitHub Actions", level: 45, description: "CI/CD pipelines, automation, workflows" },
+      { name: "Argo CD", level: 75, description: "Deployment, serverless functions, analytics" },
     ]
   },
 //   mobile: {
@@ -90,18 +93,18 @@ const skillCategories = {
 };
 
 // Show exactly the requested set with branded colors; use lucide fallbacks for brands without simple-icons
-const skillIconGrid: Array<{ name: string; Icon: React.ComponentType<{ className?: string }>; colorClass?: string }>= [
+const skillIconGrid: Array<{ name: string; Icon?: React.ComponentType<{ className?: string }>; colorClass?: string; imageData?: string }>= [
   { name: "React", Icon: SiReact, colorClass: "text-[#61DAFB]" },
   { name: "Tailwind", Icon: SiTailwindcss, colorClass: "text-[#38BDF8]" },
   { name: "NestJS", Icon: SiNestjs, colorClass: "text-[#E0234E]" },
   { name: "PostgreSQL", Icon: SiPostgresql, colorClass: "text-[#4169E1]" },
-  { name: "BetterAuth", Icon: Shield, colorClass: "text-[#0EA5E9]" },
-  { name: "Keycloak", Icon: SiKeycloak, colorClass: "text-[#4B5563]" },
-  { name: "ElectricSQL", Icon: Database, colorClass: "text-[#10B981]" },
+  { name: "BetterAuth", imageData: "https://avatars.githubusercontent.com/u/163827765?s=200&v=4" },
+  { name: "OpenFGA", imageData: "https://avatars.githubusercontent.com/u/103602580?s=200&v=4" },
+  { name: "ElectricSQL", imageData: "https://avatars.githubusercontent.com/u/96433696?s=200&v=4" },
   { name: "TypeScript", Icon: SiTypescript, colorClass: "text-[#3178C6]" },
   { name: "Node.js", Icon: SiNodedotjs, colorClass: "text-[#5FA04E]" },
   { name: "JavaScript", Icon: SiJavascript, colorClass: "text-[#F7DF1E]" },
-  { name: "shadcn", Icon: SquareStack, colorClass: "text-foreground" },
+  { name: "shadcn", imageData: "https://avatars.githubusercontent.com/u/139895814?s=200&v=4" },
   { name: "GitHub", Icon: SiGithub, colorClass: "text-black dark:text-white" },
   { name: "Docker", Icon: SiDocker, colorClass: "text-[#2496ED]" },
   { name: "ArgoCD", Icon: SiArgo, colorClass: "text-[#EF7B4D]" },
@@ -231,7 +234,7 @@ export function Skills() {
           className="mb-12"
         >
           <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 gap-3 sm:gap-4">
-            {skillIconGrid.map(({ name, Icon, colorClass }) => (
+            {skillIconGrid.map(({ name, Icon, colorClass, imageData }) => (
               <div
                 key={name}
                 className="group flex flex-col items-center gap-2"
@@ -239,7 +242,23 @@ export function Skills() {
                 aria-label={name}
               >
                 <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-xl bg-white/80 dark:bg-slate-800/80 ring-1 ring-slate-200/60 dark:ring-slate-700/60 flex items-center justify-center shadow-sm transition-all duration-300 group-hover:-translate-y-0.5 group-hover:shadow-lg group-hover:bg-gradient-to-br group-hover:from-primary/10 group-hover:to-transparent group-hover:ring-2 group-hover:ring-primary/40">
-                  <Icon className={`w-6 h-6 sm:w-8 sm:h-8 transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-3 ${colorClass ?? "text-foreground"}`} />
+                  {imageData ? (
+                    <img
+                      src={imageData}
+                      alt={name}
+                      loading="lazy"
+                      decoding="async"
+                      className="w-6 h-6 sm:w-8 sm:h-8 transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-3 object-contain"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).style.display = 'none';
+                      }}
+                      onLoad={(e) => {
+                        (e.target as HTMLImageElement).style.display = 'block';
+                      }}
+                    />
+                  ) : Icon ? (
+                    <Icon className={`w-6 h-6 sm:w-8 sm:h-8 transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-3 ${colorClass ?? "text-foreground"}`} />
+                  ) : null}
                 </div>
                 <span className="text-[10px] sm:text-xs text-muted-foreground">{name}</span>
               </div>
